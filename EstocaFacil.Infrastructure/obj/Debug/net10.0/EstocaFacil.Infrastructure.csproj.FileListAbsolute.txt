@@ -1,0 +1,6 @@
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.csproj.AssemblyReference.cache
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.AssemblyInfoInputs.cache
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.AssemblyInfo.cs
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.csproj.CoreCompileInputs.cache
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.sourcelink.json

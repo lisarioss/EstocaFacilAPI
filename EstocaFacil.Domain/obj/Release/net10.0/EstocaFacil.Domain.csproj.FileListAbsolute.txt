@@ -1,0 +1,12 @@
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/bin/Release/net10.0/EstocaFacil.Domain.deps.json
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/bin/Release/net10.0/EstocaFacil.Domain.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/bin/Release/net10.0/EstocaFacil.Domain.pdb
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.AssemblyInfoInputs.cache
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.AssemblyInfo.cs
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.csproj.CoreCompileInputs.cache
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.sourcelink.json
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/refint/EstocaFacil.Domain.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/EstocaFacil.Domain.pdb
+/workspaces/EstocaFacilAPI/EstocaFacil.Domain/obj/Release/net10.0/ref/EstocaFacil.Domain.dll
