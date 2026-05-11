@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EstocaFacil.Domain.Entities;
 using EstocaFacil.Domain.Repositories;
+using EstocaFacil.Infrastructure.Data;
 
 namespace EstocaFacil.Infrastructure.Repositories
 {

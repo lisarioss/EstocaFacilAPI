@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using EstocaFacil.Domain.Repositories;
+using EstocaFacil.Infrastructure.Data;
 
 namespace EstocaFacil.Infrastructure.Repositories
 {

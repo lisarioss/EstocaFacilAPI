@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
 using EstocaFacil.Domain.Entities;
 using EstocaFacil.Domain.Repositories;
 using EstocaFacil.Application.DTOs;
@@ -56,7 +57,10 @@ namespace EstocaFacil.Application.Services
         public async Task<Usuario> AutenticarAsync(string email, string senha)
         {
             var usuario = await _unitOfWork.Usuarios.GetByEmailAsync(email);
-            if (usuario == null || !VerificaSenha(senha, usuario.SenhaHash))
+            if (usuario == null)
+                throw new Exception("Email ou senha inválido");
+
+            if (!await VerificaSenhaAsync(senha, usuario))
                 throw new Exception("Email ou senha inválido");
 
             return usuario;
@@ -84,18 +88,44 @@ namespace EstocaFacil.Application.Services
 
         private string HashSenha(string senha)
         {
+            return BCrypt.Net.BCrypt.HashPassword(senha);
+        }
+
+        private async Task<bool> VerificaSenhaAsync(string senha, Usuario usuario)
+        {
+            var hash = usuario.SenhaHash;
+            if (string.IsNullOrWhiteSpace(hash))
+                return false;
+
+            if (hash.StartsWith("$2a$") || hash.StartsWith("$2b$") || hash.StartsWith("$2y$"))
+            {
+                return BCrypt.Net.BCrypt.Verify(senha, hash);
+            }
+
+            if (hash.StartsWith("sha256:"))
+            {
+                var antigaHash = hash.Substring("sha256:".Length);
+                if (VerificaSenhaSha256(senha, antigaHash))
+                {
+                    usuario.SenhaHash = HashSenha(senha);
+                    await _unitOfWork.Usuarios.UpdateAsync(usuario);
+                    await _unitOfWork.SaveChangesAsync();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool VerificaSenhaSha256(string senha, string hash)
+        {
             using (var sha256 = SHA256.Create())
             {
                 var senhaBytes = Encoding.UTF8.GetBytes(senha);
                 var hashBytes = sha256.ComputeHash(senhaBytes);
-                return Convert.ToBase64String(hashBytes);
+                var hashCalculo = Convert.ToBase64String(hashBytes);
+                return hashCalculo == hash;
             }
-        }
-
-        private bool VerificaSenha(string senha, string hash)
-        {
-            var hashDaSenhaFornecida = HashSenha(senha);
-            return hashDaSenhaFornecida == hash;
         }
     }
 }

@@ -107,6 +107,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// ==================== SEED DE DADOS ====================
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<EstocaFacilContext>();
+    await SeedData.Initialize(context);
+}
+
 // ==================== CONFIGURAÇÃO DO PIPELINE ====================
 if (app.Environment.IsDevelopment())
 {

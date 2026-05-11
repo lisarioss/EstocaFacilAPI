@@ -4,3 +4,13 @@
 /workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.AssemblyInfo.cs
 /workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.csproj.CoreCompileInputs.cache
 /workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.sourcelink.json
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/bin/Debug/net10.0/EstocaFacil.Infrastructure.deps.json
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/bin/Debug/net10.0/EstocaFacil.Infrastructure.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/bin/Debug/net10.0/EstocaFacil.Infrastructure.pdb
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/bin/Debug/net10.0/EstocaFacil.Domain.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/bin/Debug/net10.0/EstocaFacil.Domain.pdb
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFa.3D308028.Up2Date
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/refint/EstocaFacil.Infrastructure.dll
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/EstocaFacil.Infrastructure.pdb
+/workspaces/EstocaFacilAPI/EstocaFacil.Infrastructure/obj/Debug/net10.0/ref/EstocaFacil.Infrastructure.dll
