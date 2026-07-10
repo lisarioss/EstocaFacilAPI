@@ -10,18 +10,30 @@ using EstocaFacil.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==================== CONFIGURAÇÃO DE BANCO DE DADOS ====================
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? "Host=localhost;Database=estocafacil;Username=postgres;Password=postgres";
+// ======================================================
+// BANCO DE DADOS
+// ======================================================
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' não configurada.");
 
 builder.Services.AddDbContext<EstocaFacilContext>(options =>
     options.UseNpgsql(connectionString));
 
-// ==================== CONFIGURAÇÃO DE AUTENTICAÇÃO JWT ====================
+// ======================================================
+// JWT
+// ======================================================
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"] ?? "sua-chave-super-secreta-com-pelo-menos-32-caracteres-aqui!";
-var issuer = jwtSettings["Issuer"] ?? "EstocaFacilAPI";
-var audience = jwtSettings["Audience"] ?? "EstocaFacilUI";
+
+var secretKey = jwtSettings["SecretKey"]
+    ?? throw new InvalidOperationException("JWT SecretKey não configurada.");
+
+var issuer = jwtSettings["Issuer"]
+    ?? throw new InvalidOperationException("JWT Issuer não configurado.");
+
+var audience = jwtSettings["Audience"]
+    ?? throw new InvalidOperationException("JWT Audience não configurado.");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -36,46 +48,67 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+
         ValidIssuer = issuer,
         ValidAudience = audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(secretKey))
     };
 });
 
 builder.Services.AddAuthorization();
 
-// ==================== CONFIGURAÇÃO DE SERVIÇOS ====================
+// ======================================================
+// DEPENDENCY INJECTION
+// ======================================================
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IMovimentacaoEstoqueService, MovimentacaoEstoqueService>();
 builder.Services.AddScoped<ILogService, LogService>();
-builder.Services.AddScoped<IJwtTokenService>(provider => 
-    new JwtTokenService(secretKey, issuer, audience, 60));
 
-// ==================== CONFIGURAÇÃO DE SWAGGER ====================
+builder.Services.AddScoped<IJwtTokenService>(provider =>
+    new JwtTokenService(
+        secretKey,
+        issuer,
+        audience,
+        60));
+
+// ======================================================
+// HEALTH CHECKS
+// ======================================================
+
+builder.Services.AddHealthChecks();
+
+// ======================================================
+// SWAGGER
+// ======================================================
+
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
         Title = "EstocaFácil API",
         Version = "v1.0.0",
-        Description = "API para Gerenciamento de Estoque com autenticação segura, controle de produtos e movimentação.",
+        Description = "API para gerenciamento de estoque com autenticação JWT, controle de produtos e movimentações.",
+
         Contact = new OpenApiContact
         {
-            Name = "EstocaFácil",
-            Email = "dev@estocafacil.com"
+            Name = "Lisa Rios"
         }
     });
 
-    // Configurar autenticação JWT no Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Description = "Informe o token JWT no formato: Bearer {seu_token}",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Scheme = "Bearer"
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -89,47 +122,78 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] { }
+            Array.Empty<string>()
         }
     });
 });
 
+// ======================================================
+// CONTROLLERS
+// ======================================================
+
 builder.Services.AddControllers();
+
+// ======================================================
+// CORS
+// ======================================================
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
     });
+
+    // Em produção, substituir AllowAnyOrigin
+    // pelos domínios autorizados.
 });
 
 var app = builder.Build();
 
-// ==================== SEED DE DADOS ====================
+// ======================================================
+// MIGRATIONS E SEED
+// ======================================================
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EstocaFacilContext>();
+
+    context.Database.Migrate();
+
     await SeedData.Initialize(context);
 }
 
-// ==================== CONFIGURAÇÃO DO PIPELINE ====================
+// ======================================================
+// PIPELINE
+// ======================================================
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "EstocaFácil API v1");
-        c.RoutePrefix = string.Empty; // Swagger na raiz
+        c.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "EstocaFácil API v1");
+
+        c.RoutePrefix = string.Empty;
     });
 }
 
 app.UseHttpsRedirection();
+
 app.UseCors("AllowAll");
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health");
 
 app.Run();
