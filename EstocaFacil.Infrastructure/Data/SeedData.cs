@@ -126,6 +126,9 @@ namespace EstocaFacil.Infrastructure.Data
                 {
                     Acao = "Sistema inicializado com sucesso",
                     Entidade = "Sistema",
+                    ValoresAntigos = "",
+                    NovoValores = "Sistema inicializado",
+                    IpAddress = "127.0.0.1",
                     DataOcorrencia = DateTime.UtcNow,
                     UsuarioId = usuarios[0].Id
                 },
@@ -133,6 +136,9 @@ namespace EstocaFacil.Infrastructure.Data
                 {
                     Acao = "Produtos de teste inseridos no banco",
                     Entidade = "Produto",
+                    ValoresAntigos = "",
+                    NovoValores = "Produtos criados",
+                    IpAddress = "127.0.0.1",
                     DataOcorrencia = DateTime.UtcNow,
                     UsuarioId = usuarios[0].Id
                 }
