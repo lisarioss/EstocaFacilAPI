@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="EstocaFacil.API/EstocaFacil.API.csproj" />
+  <Project Path="EstocaFacil.Application/EstocaFacil.Application.csproj" />
+  <Project Path="EstocaFacil.Domain/EstocaFacil.Domain.csproj" />
+  <Project Path="EstocaFacil.Infrastructure/EstocaFacil.Infrastructure.csproj" />
+</Solution>
